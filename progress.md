@@ -12,8 +12,11 @@
 - [x] Basic ThemeData (dark background)
 
 ## Phase 3: State — Add + Delete a List
-- [ ] ChangeNotifier model
-- [ ] provider package wired up
+- [x] provider + uuid packages installed (`flutter pub add provider uuid`)
+- [x] Data models created — `lib/models.dart` (Todo, TodoList, all fields final/immutable)
+- [ ] ChangeNotifier store — `lib/store.dart` (TodoStore extends ChangeNotifier) ← NEXT
+- [ ] provider wired up in main.dart (ChangeNotifierProvider wrapping the app)
+- [ ] ListsScreen reads from provider instead of hardcoded widgets
 - [ ] Add list via in-memory state
 - [ ] Delete list
 
