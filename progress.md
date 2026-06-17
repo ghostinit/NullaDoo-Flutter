@@ -1,15 +1,15 @@
 # NullaDoo Flutter — Progress Log
 
 ## Phase 1: Bare Project
-- [ ] Install Flutter SDK
-- [ ] Verify install (`flutter doctor`)
-- [ ] `flutter create nulladoo_flutter`
-- [ ] Run on device/emulator — confirm default counter app works
-- [ ] First hot reload experience
+- [x] Install Flutter SDK
+- [x] Verify install (`flutter doctor`)
+- [x] `flutter create nulladoo_flutter`
+- [x] Run on device/emulator — confirm default counter app works
+- [x] First hot reload experience
 
 ## Phase 2: Static Lists Screen
-- [ ] Scaffold + AppBar + ListView + ListTile
-- [ ] Basic ThemeData (dark background)
+- [x] Scaffold + AppBar + ListView + ListTile
+- [x] Basic ThemeData (dark background)
 
 ## Phase 3: State — Add + Delete a List
 - [ ] ChangeNotifier model
