@@ -17,4 +17,27 @@ class TodoStore extends ChangeNotifier {
     _lists.removeWhere((list) => list.id == id);
     notifyListeners();
   }
+
+  TodoList? listById(String id) {
+    for (final list in _lists) {
+      if (list.id == id) return list;
+    }
+    return null;
+  }
+
+  void addTodo(String listId, String text) {
+    final index = _lists.indexWhere((list) => list.id == listId);
+    if (index == -1) return;
+
+    final oldList = _lists[index];
+    final newTodo = Todo(id: const Uuid().v4(), text: text);
+
+    _lists[index] = TodoList(
+      id: oldList.id,
+      name: oldList.name,
+      todos: [...oldList.todos, newTodo],
+    );
+
+    notifyListeners();
+  }
 }

@@ -59,9 +59,11 @@ Paste the relevant sections into the chat at the start of a new session if neede
 
 See `progress.md` for the full checklist. Update this line when phases change.
 
-**Last completed:** Phase 3 — State (ChangeNotifier store, provider wired, add via dialog, delete via Dismissible)
-**Currently on:** Phase 4 — Navigation (go_router)
-**Next step:** Add go_router; tapping a list navigates to a stub Todos screen with the list ID as a path param. (Read current go_router docs first.)
+**Last completed:** Phase 4 (go_router nav) + Phase 5 (todos screen reads list by id, renders todos + empty state) + most of Phase 6 (addTodo done with immutable rebuild pattern).
+**Currently on:** Phase 6 — Toggle / Delete todos.
+**Next step:** Add `toggleTodo(listId, todoId)` to the store (immutable: rebuild the Todo with done flipped, rebuild its TodoList, swap by index) and apply strikethrough in the TodosScreen ListTile. Then `deleteTodo`.
+
+**Env reminder:** Now on a MacBook (Apple Silicon), Flutter 3.44.2, running on the **iOS Simulator** (`open -a Simulator`, then `flutter run`). go_router 17.3.0. NOT the old Linux/Android rig.
 
 ---
 

@@ -21,19 +21,19 @@
 - [x] Delete list (swipe-to-delete via Dismissible)
 
 ## Phase 4: Navigation
-- [ ] go_router added
-- [ ] Tap list → navigate to stub todos screen
-- [ ] List ID passed as path param
+- [x] go_router added (17.3.0; MaterialApp.router + routerConfig)
+- [x] Tap list → navigate to stub todos screen (context.push, separate todos_screen.dart)
+- [x] List ID passed as path param (/lists/:id → state.pathParameters)
 
 ## Phase 5: Todos Screen
-- [ ] Read list by ID from provider
-- [ ] Display todos (empty state)
+- [x] Read list by ID from provider (store.listById → TodoList?, null-checked in screen)
+- [x] Display todos (ListView + empty state "No todos yet")
 
 ## Phase 6: Add / Toggle / Delete Todos
-- [ ] Add todo to a list
-- [ ] Toggle done (strikethrough)
-- [ ] Delete todo
-- [ ] Immutable updates inside ChangeNotifier
+- [x] Add todo to a list (AppBar + → dialog → store.addTodo; immutable rebuild)
+- [ ] Toggle done (strikethrough) ← NEXT
+- [ ] Delete todo (swipe like deleteList, or trailing icon)
+- [x] Immutable updates inside ChangeNotifier (established in addTodo: spread + replace TodoList by index)
 
 ## Phase 7: Shared Add Modal
 - [ ] `/new` route with optional `listId` query param

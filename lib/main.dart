@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'store.dart';
+import 'package:go_router/go_router.dart';
+import 'todos_screen.dart';
+
+final _router = GoRouter(
+  routes: [
+    GoRoute(path: '/', builder: (context, state) => const ListsScreen()),
+    GoRoute(
+      path: '/lists/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return TodosScreen(listId: id);
+      },
+    ),
+  ],
+);
 
 void main() {
   runApp(
@@ -17,7 +32,7 @@ class NullaDoo extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'NullaDoo',
       theme: ThemeData(
         colorScheme: ColorScheme.dark(
@@ -28,7 +43,7 @@ class NullaDoo extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xFF0A0F0A),
       ),
-      home: const ListsScreen(),
+      routerConfig: _router,
     );
   }
 }
@@ -128,6 +143,7 @@ class ListsScreen extends StatelessWidget {
                     child: ListTile(
                       title: Text(list.name),
                       trailing: const Icon(Icons.chevron_right),
+                      onTap: () => context.push('/lists/${list.id}'),
                     ),
                   ),
                 )
