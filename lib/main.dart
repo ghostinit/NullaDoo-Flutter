@@ -36,6 +36,33 @@ class NullaDoo extends StatelessWidget {
 class ListsScreen extends StatelessWidget {
   const ListsScreen({super.key});
 
+  Future<bool> _confirmDelete(
+    BuildContext context,
+    String id,
+    String listName,
+  ) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('Really Delete "$listName"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<TodoStore>().deleteList(id);
+              Navigator.pop(dialogContext, true);
+            },
+            child: const Text('Confirm'),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
   void _showAddDialog(BuildContext context) {
     final controller = TextEditingController();
     showDialog(
@@ -90,6 +117,8 @@ class ListsScreen extends StatelessWidget {
                     direction: DismissDirection.endToStart,
                     onDismissed: (_) =>
                         context.read<TodoStore>().deleteList(list.id),
+                    confirmDismiss: (_) =>
+                        _confirmDelete(context, list.id, list.name),
                     background: Container(
                       color: Colors.red,
                       alignment: Alignment.centerRight,
