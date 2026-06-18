@@ -59,9 +59,9 @@ Paste the relevant sections into the chat at the start of a new session if neede
 
 See `progress.md` for the full checklist. Update this line when phases change.
 
-**Last completed:** Phase 2 — Static Lists Screen + NullRider theme (dark bg, neon green onSurface)
-**Currently on:** Phase 3 — State (ChangeNotifier + provider)
-**Next step:** Type `lib/store.dart` — TodoStore extends ChangeNotifier, with addList/deleteList methods
+**Last completed:** Phase 3 — State (ChangeNotifier store, provider wired, add via dialog, delete via Dismissible)
+**Currently on:** Phase 4 — Navigation (go_router)
+**Next step:** Add go_router; tapping a list navigates to a stub Todos screen with the list ID as a path param. (Read current go_router docs first.)
 
 ---
 

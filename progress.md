@@ -14,11 +14,11 @@
 ## Phase 3: State — Add + Delete a List
 - [x] provider + uuid packages installed (`flutter pub add provider uuid`)
 - [x] Data models created — `lib/models.dart` (Todo, TodoList, all fields final/immutable)
-- [ ] ChangeNotifier store — `lib/store.dart` (TodoStore extends ChangeNotifier) ← NEXT
-- [ ] provider wired up in main.dart (ChangeNotifierProvider wrapping the app)
-- [ ] ListsScreen reads from provider instead of hardcoded widgets
-- [ ] Add list via in-memory state
-- [ ] Delete list
+- [x] ChangeNotifier store — `lib/store.dart` (TodoStore extends ChangeNotifier)
+- [x] provider wired up in main.dart (ChangeNotifierProvider wrapping the app)
+- [x] ListsScreen reads from provider instead of hardcoded widgets (context.watch in a Builder)
+- [x] Add list via in-memory state (AppBar + button → AlertDialog with TextField)
+- [x] Delete list (swipe-to-delete via Dismissible)
 
 ## Phase 4: Navigation
 - [ ] go_router added

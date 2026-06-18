@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'store.dart';
 
 void main() {
-  runApp(const NullaDoo());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TodoStore(),
+      child: const NullaDoo(),
+    ),
+  );
 }
 
 class NullaDoo extends StatelessWidget {
@@ -29,25 +36,75 @@ class NullaDoo extends StatelessWidget {
 class ListsScreen extends StatelessWidget {
   const ListsScreen({super.key});
 
+  void _showAddDialog(BuildContext context) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('New List'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(hintText: 'List name'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              final name = controller.text.trim();
+              if (name.isNotEmpty) {
+                context.read<TodoStore>().addList(name);
+              }
+              Navigator.pop(dialogContext);
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('NullaDoo')),
-      body: ListView(
-        children: [
-          ListTile(
-            title: const Text('Groceries'),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-          ListTile(
-            title: const Text('Work stuff'),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-          ListTile(
-            title: const Text('World domination'),
-            trailing: const Icon(Icons.chevron_right),
+      appBar: AppBar(
+        title: const Text('NullaDoo'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () => _showAddDialog(context),
           ),
         ],
+      ),
+      body: Builder(
+        builder: (context) {
+          final lists = context.watch<TodoStore>().lists;
+          return ListView(
+            children: lists
+                .map(
+                  (list) => Dismissible(
+                    key: ValueKey(list.id),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (_) =>
+                        context.read<TodoStore>().deleteList(list.id),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    child: ListTile(
+                      title: Text(list.name),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+                )
+                .toList(),
+          );
+        },
       ),
     );
   }
