@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'store.dart';
 import 'package:go_router/go_router.dart';
 import 'todos_screen.dart';
+import 'add_modal.dart';
 
 final _router = GoRouter(
   routes: [
@@ -42,7 +43,38 @@ class NullaDoo extends StatelessWidget {
           onSurface: const Color(0xFF39FF14),
         ),
         scaffoldBackgroundColor: const Color(0xFF0A0F0A),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF0A0F0A),
+          foregroundColor: Color(0xFF39FF14),
+          centerTitle: false,
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const Color(0xFF39FF14);
+            }
+            return Colors.transparent;
+          }),
+          checkColor: WidgetStateProperty.all(const Color(0xFF0A0F0A)),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: const Color(0xFF39FF14)),
+        ),
+        dialogTheme: const DialogThemeData(
+          backgroundColor: Color(0xFF0A0F0A),
+          titleTextStyle: TextStyle(
+            color: Color(0xFF39FF14),
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xFF39FF14)),
+          ),
+        ),
       ),
+
       routerConfig: _router,
     );
   }
@@ -78,37 +110,6 @@ class ListsScreen extends StatelessWidget {
     return result ?? false;
   }
 
-  void _showAddDialog(BuildContext context) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('New List'),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'List name'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              final name = controller.text.trim();
-              if (name.isNotEmpty) {
-                context.read<TodoStore>().addList(name);
-              }
-              Navigator.pop(dialogContext);
-            },
-            child: const Text('Add'),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,38 +118,43 @@ class ListsScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () => _showAddDialog(context),
+            onPressed: () => showAddModal(context, null),
           ),
         ],
       ),
       body: Builder(
         builder: (context) {
           final lists = context.watch<TodoStore>().lists;
-          return ListView(
-            children: lists
-                .map(
-                  (list) => Dismissible(
-                    key: ValueKey(list.id),
-                    direction: DismissDirection.endToStart,
-                    onDismissed: (_) =>
-                        context.read<TodoStore>().deleteList(list.id),
-                    confirmDismiss: (_) =>
-                        _confirmDelete(context, list.id, list.name),
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 20),
-                      child: const Icon(Icons.delete, color: Colors.white),
-                    ),
-                    child: ListTile(
-                      title: Text(list.name),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.push('/lists/${list.id}'),
-                    ),
-                  ),
-                )
-                .toList(),
-          );
+          return lists.isEmpty
+              ? const Center(child: Text("No Lists Yet!"))
+              : ListView(
+                  children: lists
+                      .map(
+                        (list) => Dismissible(
+                          key: ValueKey(list.id),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (_) =>
+                              context.read<TodoStore>().deleteList(list.id),
+                          confirmDismiss: (_) =>
+                              _confirmDelete(context, list.id, list.name),
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20),
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: ListTile(
+                            title: Text(list.name),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () => context.push('/lists/${list.id}'),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                );
         },
       ),
     );

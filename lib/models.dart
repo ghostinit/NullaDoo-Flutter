@@ -4,6 +4,14 @@ class Todo {
   final bool done;
 
   const Todo({required this.id, required this.text, this.done = false});
+
+  Todo copyWith({String? id, String? text, bool? done}) {
+    return Todo(
+      id: id ?? this.id,
+      text: text ?? this.text,
+      done: done ?? this.done,
+    );
+  }
 }
 
 class TodoList {
